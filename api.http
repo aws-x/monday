@@ -1,0 +1,90 @@
+@token={{$dotenv MONDAY_TOKEN}}
+@board_id=1157078053
+
+### First Post request
+POST https://api.monday.com/v2/
+Content-Type:application/json
+Authorization: {{token}}
+X-REQUEST-TYPE: GraphQL
+
+query {
+    boards(limit:2) {
+        id 
+        name
+    }
+}
+
+
+### Notification
+POST https://api.monday.com/v2/
+Content-Type:application/json
+Authorization: {{token}}
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+    create_notification (user_id: 39611567, target_id: 1152500719, text: "This is a notification", target_type: Project) {
+        text
+    }
+}
+
+### Items By Column Values
+POST https://api.monday.com/v2/
+Content-Type:application/json
+Authorization: {{token}}
+X-REQUEST-TYPE: GraphQL
+
+query {
+    items_by_column_values (board_id: 1152500714, column_id: "date", column_value: "2023-02-11") {
+        id
+        name
+    }
+}
+
+
+### Items By Column Values
+POST https://api.monday.com/v2/
+Content-Type:application/json
+Authorization: {{token}}
+X-REQUEST-TYPE: GraphQL
+
+query {
+    items_by_column_values (board_id: 1152500714, column_id: "status", column_value: "done") {
+        id
+        name
+    }
+}
+
+
+### Items By Multiple Column Values
+POST https://api.monday.com/v2/
+Content-Type:application/json
+Authorization: {{token}}
+X-REQUEST-TYPE: GraphQL
+
+query {
+    items_by_multiple_column_values (
+        board_id: {{board_id}}, 
+        limit: 2
+        column_id: "status", column_values: ["Working on it", "In progress"]) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+
+### Get the id of the item
+POST https://api.monday.com/v2/
+Content-Type:application/json
+Authorization: {{token}}
+X-REQUEST-TYPE: GraphQL
+
+query {
+  boards (ids:{{board_id}}) {
+    items {
+      id
+    }
+  }
+}
+
+# antoniomon_pulse_1152500719_003a8fd373aa3fce2091__39611567@euc1.mx.monday.com
